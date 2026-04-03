@@ -1,0 +1,50 @@
+// Write your JS code here
+import './index.css'
+import {Component} from 'react'
+import Loader from 'react-loader-spinner'
+import BlogItem from '../BlogItem'
+
+class BlogList extends Component {
+  state = {blogsList: [], listLoading: true}
+
+  componentDidMount = () => {
+    this.getBlogsList()
+  }
+
+  getBlogsList = async () => {
+    const response = await fetch('https://apis.ccbp.in/blogs')
+    const data = await response.json()
+    const updatedData = data.map(eachItem => ({
+      author: eachItem.author,
+      avatarUrl: eachItem.avatar_url,
+      id: eachItem.id,
+      imageUrl: eachItem.image_url,
+      title: eachItem.title,
+      topic: eachItem.topic,
+    }))
+
+    this.setState({blogsList: updatedData, listLoading: false})
+  }
+
+  render() {
+    const {blogsList, listLoading} = this.state
+
+    return (
+      <div>
+        {listLoading ? (
+          <div data-testid="loader">
+            <Loader type="TailSpin" color="#00bfff" height={50} width={50} />
+          </div>
+        ) : (
+          <ul>
+            {blogsList.map(eachBlog => (
+              <BlogItem key={eachBlog.id} blog={eachBlog} />
+            ))}
+          </ul>
+        )}
+      </div>
+    )
+  }
+}
+
+export default BlogList

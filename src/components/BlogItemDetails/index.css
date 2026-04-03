@@ -1,0 +1,10 @@
+/* Write your CSS code here */
+.blog-details-container{
+    padding: 36px;
+}
+.blog-details-img-container {
+  width: 100%;
+}
+.blog-details-img-container img {
+  width: 100%;
+}
